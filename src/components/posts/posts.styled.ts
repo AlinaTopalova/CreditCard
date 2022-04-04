@@ -9,6 +9,12 @@ const SectionWrap = styled.div`
   @media (max-width: 1439px) {
     padding: 100px;
     max-width: 700px;
+    margin: 0 auto ;
+  }
+
+  @media (max-width: 789px) {
+    padding: 100px;
+    max-width: 300px;
   }
 
   ::after {

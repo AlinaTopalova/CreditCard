@@ -12,6 +12,10 @@ const Container = styled.div`
     padding: 0 60px;
   }
 
+  @media (max-width: 789px) {
+    padding: 0 15px;
+  }
+
   
   ::before {
     content: '';
@@ -50,7 +54,7 @@ const Container = styled.div`
       left: 20px;
     }
 
-    @media (max-width: 1276px) {
+    @media (max-width: 1380px) {
       content: none;
     }
   }
