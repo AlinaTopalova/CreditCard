@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   *,
@@ -15,7 +16,17 @@ const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     padding: 0;
+    background-color: #112531;
+    box-sizing: border-box;
   }
 `
+const Wrap = styled.div`
+  display: flex;
+  padding: 100px 60px;
+  margin: 0 auto;
+`
 
-export { GlobalStyle };
+export {
+  Wrap,
+  GlobalStyle 
+};

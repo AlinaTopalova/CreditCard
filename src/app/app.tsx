@@ -1,8 +1,15 @@
-import MainPage from 'mainPage/mainPage';
+import CreditCard from 'creditCard/creditCard';
+import { GlobalStyle, Wrap } from './app.styled';
 
 export default function App() {
   
   return (
-      <MainPage />
+    <>
+      <GlobalStyle />
+      <Wrap>
+        <CreditCard />
+      </Wrap>
+      </>
+    
   );
 }
