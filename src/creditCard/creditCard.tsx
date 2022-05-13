@@ -1,14 +1,23 @@
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import IMask from 'imask';
-import { useEffect, useRef, useState } from 'react';
-import { ChangeEvent } from 'react';
+import { 
+  CVV_LENGTH,
+  DATE_LENGTH,
+  GENERAL_DATE_LENGTH,
+  MASK_CVV,
+  MASK_DATE,
+  MASK_NUMBER,
+  MONTH_MAX,
+  MONTH_MIN,
+  NUMBER_LENGTH,
+  YEAR_MAX,
+  YEAR_MIN
+} from 'constants/constants';
 import MainContainer from '../mainContainer/mainContainer';
 import  * as S from './creditCard.styled'; 
 
-
 export default function CreditCard(): JSX.Element {
-  const [cardNum, setCardNum] = useState('');
-  const [cardDate, setCardDate] = useState('');
-  const [cardCVV, setCardCVV] = useState('');
+
   const [rotate, setRotate] = useState<boolean>(false);
 
   const num = useRef<HTMLInputElement | null>(null);
@@ -18,54 +27,45 @@ export default function CreditCard(): JSX.Element {
   const cvv = useRef<HTMLInputElement | null>(null);
 
   const handleCardNumChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    if (evt.target.value.length === 19) {
-      setRotate(true);
+    if (evt.target.value.length === NUMBER_LENGTH) {
       date.current?.focus();
+      setRotate(true);
     }
-    const maskOptions = {mask: '0000 0000 0000 0000'};
-    IMask(evt.currentTarget, maskOptions);
-    setCardNum(evt.target.value);
+    IMask(evt.currentTarget, {mask: MASK_NUMBER});
   }
 
-  const handleCardDateChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    if (evt.target.value.length === 5) {
+  const handleCardDataChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    if (evt.target.value.length === GENERAL_DATE_LENGTH) {
       cvv.current?.focus();
     }
-    const maskOptions = {
+    IMask(evt.currentTarget, {
       mask: Date,
-      pattern: 'm/`Y',
+      pattern: MASK_DATE,
       blocks: {
         m: {
           mask: IMask.MaskedRange,
-          from: 0,
-          to: 12,
-          maxLength: 2,
+          from: MONTH_MIN,
+          to: MONTH_MAX,
+          maxLength: DATE_LENGTH,
         },
-        y: {
+        Y: {
           mask: IMask.MaskedRange,
-          from: 22,
-          to: 99,
-          maxLength: 2,
+          from: YEAR_MIN,
+          to: YEAR_MAX,
+          maxLength: DATE_LENGTH,
         }
-      },
-    };
-
-    IMask(evt.currentTarget, maskOptions);
-    setCardDate(evt.target.value);
+      }
+    });
   }
   
   const handleCardCVVChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    if (evt.target.value.length === 3) {
-      cvv.current?.focus();
+    if (evt.target.value.length === CVV_LENGTH) {
+      setRotate(false);
+      num.current?.focus();
     }
-    const maskOptions = {mask: '000'};
+    const maskOptions = {mask: MASK_CVV};
     IMask(evt.currentTarget, maskOptions);
-    setCardCVV(evt.target.value);
   }
-  
-  console.log('cardNum', cardNum);
-  console.log('cardDate', cardDate);
-  console.log('cardCVV', cardCVV);
 
   useEffect(() => {
     num.current?.focus();
@@ -75,24 +75,45 @@ export default function CreditCard(): JSX.Element {
     <MainContainer>
       <S.CardWrap rotate={rotate}>
         <S.CardFace>
+          <S.HeaderWrap>
+            <S.BalanceWrap>
+              <S.BalanceTitle>Current Balance</S.BalanceTitle>
+              <S.Balance>$5,750,20</S.Balance>
+            </S.BalanceWrap>
+            <S.CardLogo></S.CardLogo>
+          </S.HeaderWrap>
+          <S.FrontInputsWrap>
             <S.CardNum
-                ref={num}
-                onChange={handleCardNumChange}
-                size = {19}
-                required
+              ref={num}
+              onChange={handleCardNumChange}
+              size={19}
+              required
             />
-          </S.CardFace>
-          <S.CardFace isBack={true}>
-          
-            <S.CardDate
+            <S.FrontDate>
+              {date.current?.value ? date.current.value : '/'}
+            </S.FrontDate>
+          </S.FrontInputsWrap>
+        </S.CardFace>
+        <S.CardFace isBack={true}>
+          <S.CardLogo isBack={true} />
+          <S.BackInputsWrap>
+            <S.BackInputWrap>
+              <S.BackInputLabel>Date</S.BackInputLabel>
+              <S.BackInput
                 ref={date}
-                onChange={handleCardDateChange}
-            />
-            <S.CardCVV
+                onChange={handleCardDataChange}
+              />
+            </S.BackInputWrap>
+            <S.BackInputWrap>
+              <S.BackInputLabel>CVV</S.BackInputLabel>
+              <S.BackInput
                 ref={cvv}
                 onChange={handleCardCVVChange}
-            />
-         </S.CardFace>
+              />
+            </S.BackInputWrap>
+          </S.BackInputsWrap>
+          <S.CardChip />
+        </S.CardFace>
       </S.CardWrap>
     </MainContainer>
   );

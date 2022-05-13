@@ -1,0 +1,25 @@
+const MASK_NUMBER = '0000 0000 0000 0000';
+const MASK_DATE = 'm`/`YY';
+const MASK_CVV = '000';
+const NUMBER_LENGTH = 19;
+const GENERAL_DATE_LENGTH = 5;
+const DATE_LENGTH = 2;
+const CVV_LENGTH = 3;
+const MONTH_MIN = 1;
+const MONTH_MAX = 12;
+const YEAR_MIN = 1;
+const YEAR_MAX = 99;
+
+export {
+  CVV_LENGTH,
+  DATE_LENGTH,
+  GENERAL_DATE_LENGTH,
+  MASK_CVV,
+  MASK_DATE,
+  MASK_NUMBER,
+  MONTH_MIN,
+  MONTH_MAX,
+  NUMBER_LENGTH,
+  YEAR_MIN,
+  YEAR_MAX
+}
