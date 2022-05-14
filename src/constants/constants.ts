@@ -1,12 +1,12 @@
+const CVV_LENGTH = 3;
+const DATE_LENGTH = 2;
+const GENERAL_DATE_LENGTH = 5;
 const MASK_NUMBER = '0000 0000 0000 0000';
 const MASK_DATE = 'm`/`YY';
 const MASK_CVV = '000';
-const NUMBER_LENGTH = 19;
-const GENERAL_DATE_LENGTH = 5;
-const DATE_LENGTH = 2;
-const CVV_LENGTH = 3;
 const MONTH_MIN = 1;
 const MONTH_MAX = 12;
+const NUMBER_LENGTH = 19;
 const YEAR_MIN = 1;
 const YEAR_MAX = 99;
 

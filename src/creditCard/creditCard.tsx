@@ -13,9 +13,9 @@ import {
   YEAR_MAX,
   YEAR_MIN
 } from 'constants/constants';
-import MainContainer from '../mainContainer/mainContainer';
-import  * as S from './creditCard.styled';
 import { CardData } from 'types/types';
+import MainContainer from 'mainContainer/mainContainer';
+import  * as S from './creditCard.styled';
 
 type CreditCardProps = {
   onSuccess: (cardData: CardData) => void
@@ -40,7 +40,7 @@ export default function CreditCard(props: CreditCardProps): JSX.Element {
     IMask(evt.currentTarget, {mask: MASK_NUMBER});
   }
 
-  const handleCardDataChange = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handleCardDateChange = (evt: ChangeEvent<HTMLInputElement>) => {
     if (evt.target.value.length === GENERAL_DATE_LENGTH) {
       cvv.current?.focus();
     }
@@ -99,11 +99,15 @@ export default function CreditCard(props: CreditCardProps): JSX.Element {
             <S.CardNum
               ref={num}
               onChange={handleCardNumChange}
-              size={19}
+              minLength={NUMBER_LENGTH}
+              maxLength={NUMBER_LENGTH}
               required
             />
             <S.FrontDate>
-              {date.current?.value ? date.current.value : '/'}
+              {(date.current?.value &&  date.current?.value.length === 5) 
+              ? date.current.value
+              : '/'
+              }
             </S.FrontDate>
           </S.FrontInputsWrap>
         </S.CardFace>
@@ -114,7 +118,9 @@ export default function CreditCard(props: CreditCardProps): JSX.Element {
               <S.BackInputLabel>Date</S.BackInputLabel>
               <S.BackInput
                 ref={date}
-                onChange={handleCardDataChange}
+                minLength={GENERAL_DATE_LENGTH}
+                maxLength={GENERAL_DATE_LENGTH}
+                onChange={handleCardDateChange}
                 required
               />
             </S.BackInputWrap>
@@ -122,6 +128,8 @@ export default function CreditCard(props: CreditCardProps): JSX.Element {
               <S.BackInputLabel>CVV</S.BackInputLabel>
               <S.BackInput
                 ref={cvv}
+                minLength={CVV_LENGTH}
+                maxLength={CVV_LENGTH}
                 onChange={handleCardCVVChange}
                 required
               />

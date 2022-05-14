@@ -1,4 +1,4 @@
-import { Store, Actions, ActionType } from "types/types";
+import { Store, Actions, ActionType } from 'types/types';
 
 export const initialState: Store = {
   cardData: {
