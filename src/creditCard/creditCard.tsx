@@ -14,11 +14,17 @@ import {
   YEAR_MIN
 } from 'constants/constants';
 import MainContainer from '../mainContainer/mainContainer';
-import  * as S from './creditCard.styled'; 
+import  * as S from './creditCard.styled';
+import { CardData } from 'types/types';
 
-export default function CreditCard(): JSX.Element {
+type CreditCardProps = {
+  onSuccess: (cardData: CardData) => void
+}
 
-  const [rotate, setRotate] = useState<boolean>(false);
+export default function CreditCard(props: CreditCardProps): JSX.Element {
+  const { onSuccess } = props;
+
+  const [isRotate, setIsRotate] = useState<boolean>(false);
 
   const num = useRef<HTMLInputElement | null>(null);
 
@@ -29,7 +35,7 @@ export default function CreditCard(): JSX.Element {
   const handleCardNumChange = (evt: ChangeEvent<HTMLInputElement>) => {
     if (evt.target.value.length === NUMBER_LENGTH) {
       date.current?.focus();
-      setRotate(true);
+      setIsRotate(true);
     }
     IMask(evt.currentTarget, {mask: MASK_NUMBER});
   }
@@ -60,8 +66,15 @@ export default function CreditCard(): JSX.Element {
   
   const handleCardCVVChange = (evt: ChangeEvent<HTMLInputElement>) => {
     if (evt.target.value.length === CVV_LENGTH) {
-      setRotate(false);
       num.current?.focus();
+      setIsRotate(false);
+      if (num.current && date.current && cvv.current) {
+        onSuccess({
+          cardNumber: num.current.value,
+          cardDate: date.current.value,
+          cardCVV: cvv.current.value,
+        });
+      } 
     }
     const maskOptions = {mask: MASK_CVV};
     IMask(evt.currentTarget, maskOptions);
@@ -73,7 +86,7 @@ export default function CreditCard(): JSX.Element {
 
   return (
     <MainContainer>
-      <S.CardWrap rotate={rotate}>
+      <S.CardWrap isRotate={isRotate}>
         <S.CardFace>
           <S.HeaderWrap>
             <S.BalanceWrap>
@@ -102,6 +115,7 @@ export default function CreditCard(): JSX.Element {
               <S.BackInput
                 ref={date}
                 onChange={handleCardDataChange}
+                required
               />
             </S.BackInputWrap>
             <S.BackInputWrap>
@@ -109,6 +123,7 @@ export default function CreditCard(): JSX.Element {
               <S.BackInput
                 ref={cvv}
                 onChange={handleCardCVVChange}
+                required
               />
             </S.BackInputWrap>
           </S.BackInputsWrap>

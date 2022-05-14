@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const CardWrap = styled.div<{rotate: boolean}>`
+const CardWrap = styled.div<{isRotate: boolean}>`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -12,7 +12,7 @@ const CardWrap = styled.div<{rotate: boolean}>`
   border-radius: 30px;
   transition: transform 2s;
   transform-style: preserve-3d;
-  transform: ${props => props.rotate && 'rotateY(180deg)'};
+  transform: ${props => props.isRotate && 'rotateY(180deg)'};
   perspective: 450px;
 `
 
